@@ -1,5 +1,5 @@
-import { SuccessPayment } from './Components/SuccessPayment'
-import { FailedPayment } from './Components/FailedPayment'
+// import { SuccessPayment } from './Components/SuccessPayment'
+// import { FailedPayment } from './Components/FailedPayment'
 
 function ResultPayment() {
     return (

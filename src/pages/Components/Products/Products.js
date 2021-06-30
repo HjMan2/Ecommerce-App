@@ -1,5 +1,5 @@
-import { useRouteMatch } from 'react-router-dom'
 import { ProductsList } from '../../../common/Components/ProductsList'
+
 function Products() {
     return(
         <>

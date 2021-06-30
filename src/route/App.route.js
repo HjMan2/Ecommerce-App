@@ -7,6 +7,7 @@ import {
 import { MainLayout } from "../layout";
 import {
   AdminDashboard,
+  Login,
   Cart,
   Home,
   Products,
@@ -16,11 +17,15 @@ import {
   Payment,
 } from "../pages";
 
+
 function AppRoute() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/admin-dashboard">
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/admin-dashboard/:activeTab?">
           <AdminDashboard />
         </Route>
         <Route exact path="/cart">
@@ -34,7 +39,7 @@ function AppRoute() {
           </MainLayout>
         </Route>
         <Route exact path="/payment">
-            <Payment/>
+          <Payment />
         </Route>
         <Route path="/goods/:productId">
           <MainLayout>

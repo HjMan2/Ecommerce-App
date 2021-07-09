@@ -29,6 +29,7 @@ const http = {
   post: axios.post,
   delete: axios.delete,
   put: axios.put,
+  patch: axios.patch
 };
 
 export default http;

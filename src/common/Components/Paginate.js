@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Paginate({ count }) {
+function Paginate({ count,path }) {
   const classes = useStyles();
   const { activeTab } = useParams();
   const { search } = useLocation();
@@ -26,6 +26,7 @@ function Paginate({ count }) {
           const query = new URLSearchParams(location.search);
           const page = parseInt(query.get("page") || "1", 10);
           const searchQuery = status ? `?status=${status}` : `?`;
+          const formatActiveTab = activeTab ? `/${activeTab}`: null
           return (
             <Pagination
               page={page}
@@ -33,10 +34,10 @@ function Paginate({ count }) {
               renderItem={(item) => (
                 <PaginationItem
                   component={Link}
-                  to={`/admin-dashboard/${activeTab}${searchQuery}${
+                  to={`/${path}${formatActiveTab|| ""}${searchQuery}${
                     item.page === 1
                       ? ""
-                      : `${item.page && status === 1 ? "" : "&"}page=${
+                      : `${status ? "&" : ""}page=${
                           item.page
                         }`
                   }`}

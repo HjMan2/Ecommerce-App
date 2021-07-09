@@ -38,7 +38,7 @@ function PendingOrders() {
   return (
     <>
       <TableData columns={columns} data={result} />
-      <Paginate count={Math.ceil(responseLength / 5)} />
+      <Paginate count={Math.ceil(responseLength / 5)} path="admin-dashboard"/>
     </>
   );
 }

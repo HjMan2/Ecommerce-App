@@ -42,7 +42,7 @@ server.use(jsonServer.bodyParser)
 // 2- (do it in next middleware)
 const imageFieldUploadMiddleware = upload.single('image')
 server.use((req, res, next) => {
-  if (req.method === 'POST' && req.headers['content-type'] != 'application/json') {
+  if ((req.method === 'POST' || req.method === 'PATCH') && req.headers['content-type'] != 'application/json') {
     imageFieldUploadMiddleware(req, res, next)
   } else {
     next()
@@ -72,17 +72,17 @@ server.use((req, res, next) => {
 
 
 // Add createdAt field with timestamp value when posting to any route
-server.use((req, res, next) => {
-  if (req.method === 'POST') {
-    req.body.createdAt = Date.now()
-  }
-  // Continue to JSON Server router
-  next()
-})
+// server.use((req, res, next) => {
+//   if (req.method === 'POST') {
+//     req.body.createdAt = Date.now()
+//   }
+//   // Continue to JSON Server router
+//   next()
+// })
 
 // Use default router (CRUDs of db.json)
 server.use(router)
 
-server.listen(3000, () => {
-  console.log('Customized JSON-Server is running at http://localhost:3000/')
+server.listen(8080, () => {
+  console.log('Customized JSON-Server is running at http://localhost:8080/')
 })

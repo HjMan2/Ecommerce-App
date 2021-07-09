@@ -41,4 +41,97 @@ async function getNumberInStock(pageNumber) {
   }
 }
 
-export { saveToDeliveredList, getOrders, getNumberInStock };
+async function updateNumberInStock(items) {
+  try {
+    items.forEach((item) => {
+      http.put(createUrl("allProducts", item.id), item);
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async function deleteProduct(id) {
+  return await http.delete(createUrl("allProducts", id));
+}
+
+async function getCategories() {
+  try {
+    const { data } = await http.get(createUrl("categories"));
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async function editProduct(product) {
+  const formData = new FormData();
+  formData.append("name", product.name);
+  formData.append("price", product.price);
+  formData.append("image", product.image);
+  formData.append("numberInStock", product.numberInStock);
+  formData.append("category", product.category[0]);
+  formData.append("description", product.description);
+  formData.append("pathName", product.category.slice(1));
+  console.log(product.category);
+  const config = {
+    headers: { "content-type": "multipart/form-data" },
+  };
+
+  try {
+    if (product.id) {
+      const id = product.id;
+      delete product.id;
+      return await http.patch(createUrl("allProducts", id), formData, config);
+    } else {
+      return await http.post(createUrl("allProducts"), formData, config);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function getAllProducts() {
+  try {
+    const { data } = await http.get(createUrl("allProducts"));
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async function getProduct(id) {
+  try {
+    const { data } = await http.get(createUrl("allProducts", id));
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async function getPagedProducts(pageNumber) {
+  try {
+    const response = await http.get(createUrl("allProducts"), {
+      params: {
+        _page: pageNumber,
+        _limit: 10,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+export {
+  saveToDeliveredList,
+  getOrders,
+  getNumberInStock,
+  updateNumberInStock,
+  deleteProduct,
+  getCategories,
+  editProduct,
+  getAllProducts,
+  getProduct,
+  getPagedProducts,
+};

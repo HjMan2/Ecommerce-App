@@ -41,14 +41,14 @@ function AppRoute() {
         <Route exact path="/payment">
           <Payment />
         </Route>
-        <Route path="/goods/:productId">
+        <Route path="/product/:productId">
           <MainLayout>
             <Product />
           </MainLayout>
         </Route>
-        <Route path="/main/:category">
+        <Route path="/search/:activeTab">
           <MainLayout>
-            <Products />
+            <Products/>
           </MainLayout>
         </Route>
         <Route path="/not-found">

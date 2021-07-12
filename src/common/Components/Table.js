@@ -31,11 +31,14 @@ const renderCell = (item, column) => {
   return item[column.path];
 };
 
-function TableData({ columns, data }) {
-  const classes = useStyles();
+function TableData({ columns, data, maxHeight }) {
+  const classes = useStyles(maxHeight);
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      style={{ maxHeight: maxHeight ? "250px" : "initial" }}
+    >
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>

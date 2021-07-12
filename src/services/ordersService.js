@@ -123,6 +123,14 @@ async function getPagedProducts(pageNumber) {
   }
 }
 
+async function saveToDeliveredOrders(id, status) {
+  try {
+    await http.patch(createUrl("orders", id), status);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export {
   saveToDeliveredList,
   getOrders,
@@ -134,4 +142,5 @@ export {
   getAllProducts,
   getProduct,
   getPagedProducts,
+  saveToDeliveredOrders,
 };

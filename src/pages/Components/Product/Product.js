@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { getProduct } from "../../../services/ordersService";
 import { transformToHtml } from "../../../utils/transformToHtml";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "react-bootstrap";
+import { Button } from "@material-ui/core";
 import { TextField, Typography, Breadcrumbs } from "@material-ui/core";
 import NavigateBeforeIcon from "@material-ui/icons/NavigateBefore";
 
@@ -29,10 +29,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
   },
-  description: {},
   addBtn: {
     backgroundColor: "#198754",
     color: "white",
+    "&:hover": {
+      backgroundColor: "#197054",
+    },
   },
   fileds: {
     display: "flex",
@@ -42,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
   bold: {
     fontSize: "1.875rem",
     fontWeight: "600",
+    fontFamily: "inherit",
+    color: "black",
+  },
+  bread: {
+    fontFamily: "IRANSans",
   },
 }));
 
@@ -49,10 +56,16 @@ function Product() {
   const classes = useStyles();
   const { productId } = useParams();
   const [product, setProduct] = useState({});
-
+  const [numberOfDemand, setNumberOfDemand] = useState(0);
   useEffect(() => {
     getProduct(productId).then((res) => setProduct(res));
   }, [productId]);
+
+  const handleChange = (e) => {
+    setNumberOfDemand(e.target.value);
+  };
+
+  const handleClick = () => {};
 
   return (
     <>
@@ -62,32 +75,44 @@ function Product() {
           <div className={classes.detalis}>
             <div className={classes.bold}>{product.name}</div>
             <div>
-              <Breadcrumbs separator={<NavigateBeforeIcon fontSize="large" />}>
-                <Typography className={classes.bold}>{product.category}</Typography>
-                {product.pathName && product.pathName.split(",").map((item) => (
-                  <Typography key={item} className={classes.bold}>{item}</Typography>
-                ))}
+              <Breadcrumbs
+                separator={<NavigateBeforeIcon fontSize="large" />}
+                className={classes.bread}
+              >
+                <Typography className={classes.bold}>
+                  {product.category}
+                </Typography>
+                {product.pathName &&
+                  product.pathName.split(",").map((item) => (
+                    <Typography key={item} className={classes.bold}>
+                      {item}
+                    </Typography>
+                  ))}
               </Breadcrumbs>
             </div>
             <div className={classes.bold}>{product.price} تومان</div>
             <div className={classes.fileds}>
               <TextField
+                inputProps={{ min: 0, max: product.numberInStock }}
                 id="outlined-number"
                 type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
+                value={numberOfDemand}
                 variant="outlined"
+                onChange={handleChange}
               />
-              <Button variant="contained" className={classes.addBtn} size="lg">
+              <Button
+                disabled={Boolean(!+numberOfDemand)}
+                variant="contained"
+                className={classes.addBtn}
+                size="large"
+                onClick={handleClick}
+              >
                 افزودن به سبد خرید
               </Button>
             </div>
           </div>
         </div>
-        <div className={classes.description}>
-          {transformToHtml(product.description)}
-        </div>
+        <div>{transformToHtml(product.description)}</div>
       </div>
     </>
   );

@@ -8,6 +8,10 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: theme.palette.text.secondary,
     display: "flex",
+    transition: "150ms ease-in-out",
+    "&:hover": {
+      transform: "scale(1.03)"
+    }
   },
   img: {
     width: "100px",

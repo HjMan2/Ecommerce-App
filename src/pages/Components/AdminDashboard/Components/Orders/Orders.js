@@ -24,11 +24,11 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: "1",
     alignSelf: "center",
     fontSize: "1rem",
-    [theme.breakpoints.up("lg")] : {
+    [theme.breakpoints.up("lg")]: {
       justifySelf: "flex-start",
-      fontSize: '1.875rem'
-    }
-  }
+      fontSize: "1.875rem",
+    },
+  },
 }));
 
 const GreenRadio = withStyles({
@@ -46,6 +46,8 @@ function Orders() {
   const history = useHistory();
   const { search } = useLocation();
   const { pathname } = useLocation();
+  const [customer, setCustomer] = useState({});
+  const [open, setOpen] = useState(false);
   const status = new URLSearchParams(search).get("status");
   const DEFAULT_STATUS = status || "pending";
   const [deliverStatus, setdeliverStatus] = useState(DEFAULT_STATUS);
@@ -58,6 +60,15 @@ function Orders() {
   const handleStatusChange = ({ target }) => {
     history.push(`${pathname}?status=${target.value}`);
     setdeliverStatus(target.value);
+  };
+
+  const handleOpen = (customer) => {
+    setCustomer(customer);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -83,7 +94,21 @@ function Orders() {
           />
         </div>
       </div>
-      {deliverStatus === "pending" ? <PendingOrders /> : <DeliveredOrders />}
+      {deliverStatus === "pending" ? (
+        <PendingOrders
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+          customer={customer}
+        />
+      ) : (
+        <DeliveredOrders
+          onClose={handleClose}
+          onOpen={handleOpen}
+          open={open}
+          customer={customer}
+        />
+      )}
     </>
   );
 }

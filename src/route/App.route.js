@@ -14,9 +14,7 @@ import {
   Shipping,
   Product,
   NotFound,
-  Payment,
 } from "../pages";
-
 
 function AppRoute() {
   return (
@@ -38,9 +36,6 @@ function AppRoute() {
             <Shipping />
           </MainLayout>
         </Route>
-        <Route exact path="/payment">
-          <Payment />
-        </Route>
         <Route path="/product/:productId">
           <MainLayout>
             <Product />
@@ -48,7 +43,7 @@ function AppRoute() {
         </Route>
         <Route path="/search/:activeTab">
           <MainLayout>
-            <Products/>
+            <Products />
           </MainLayout>
         </Route>
         <Route path="/not-found">

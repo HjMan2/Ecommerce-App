@@ -4,8 +4,9 @@ import { getOrders } from "../../../../../../services/ordersService";
 import { TableData } from "../../../../../../common/Components/Table";
 import { Paginate } from "../../../../../../common/Components/Paginate";
 import Button from "@material-ui/core/Button";
+import { OrderDetails } from "./Components/OrdersDetails";
 
-function DeliveredOrders() {
+function DeliveredOrders({ onClose, onOpen, open, customer }) {
   const [result, setResult] = useState([]);
   const [responseLength, setResponseLength] = useState(5);
   const search = useLocation().search;
@@ -31,7 +32,11 @@ function DeliveredOrders() {
       label: "زمان‌ ثبت سفارش",
     },
     {
-      details: (person) => <Button variant="contained">بررسی‌سفارش</Button>,
+      details: (person) => (
+        <Button variant="contained" onClick={() => onOpen(person)}>
+          بررسی‌سفارش
+        </Button>
+      ),
       key: "details",
       label: "جزئیات",
     },
@@ -39,7 +44,8 @@ function DeliveredOrders() {
   return (
     <>
       <TableData columns={columns} data={result} />
-      <Paginate count={Math.ceil(responseLength / 5)} path="admin-dashboard"/>
+      <Paginate count={Math.ceil(responseLength / 5)} path="admin-dashboard" />
+      <OrderDetails customer={customer} onClose={onClose} open={open} />
     </>
   );
 }

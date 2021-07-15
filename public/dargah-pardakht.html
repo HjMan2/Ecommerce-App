@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dargah-pardakht</title>
+    <style>
+      .container div:first-child {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .links {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+        display: inline-block;
+        font-weight: 800;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 2;
+      }
+      a:first-child {
+        flex-grow: 2;
+        background-color: green;
+      }
+      a:last-child {
+        flex-grow: 1;
+        background-color: orange;
+      }
+    </style>
+  </head>
+  <body dir="rtl">
+    <div class="container">
+      <div>
+        <img src="./dargah.png" />
+        <div class="links">
+          <a href="/result-payment?success=true">پرداخت</a>
+          <a href="/result-payment?success=false">انصراف</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

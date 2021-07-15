@@ -131,6 +131,27 @@ async function saveToDeliveredOrders(id, status) {
   }
 }
 
+async function saveToPendingList(customer) {
+  try {
+    await http.post(createUrl("orders"), customer);
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
+async function setCountInStock(stockList) {
+  console.log(stockList)
+  try {
+    stockList.forEach(async(item) => {
+      await http.patch(createUrl("allProducts", item.id), {
+        numberInStock: item.numberInStock - item.numberOfDemand,
+      });
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export {
   saveToDeliveredList,
   getOrders,
@@ -143,4 +164,6 @@ export {
   getProduct,
   getPagedProducts,
   saveToDeliveredOrders,
+  saveToPendingList,
+  setCountInStock,
 };

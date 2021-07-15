@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button } from "@material-ui/core";
 import Joi from "joi-browser";
@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "&:hover": {
       backgroundColor: "#197054",
+      color: "white",
     },
   },
 }));
@@ -60,7 +61,7 @@ const MainSchema = {
   phone: Joi.number().required().label("Phone"),
 };
 
-function Shipping(props) {
+function Shipping() {
   const classes = useStyles();
   const [state, setState] = useState({
     name: "",
@@ -70,7 +71,8 @@ function Shipping(props) {
     phone: "",
   });
   const [errors, setErrors] = useState({});
-  const [redirect, setRedirect] = useState(false);
+  const products = useSelector(state => state.products)
+  const totalPrice = useSelector(state => state.totalPrice)
   const validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(state, MainSchema, options);
@@ -88,11 +90,30 @@ function Shipping(props) {
     return error ? error.details[0].message : null;
   };
 
+  const saveToStorage = () => {
+    const { name , lName, address, phone, deliverTime } = state
+    const customerDetails = [
+      {
+        name: `${name} ${lName}`,
+        totalPrice,
+        timeStamp: Date.now().toString(),
+        address,
+        phone,
+        deliverTime,
+        status: "pending",
+        products
+      }
+    ]
+    localStorage.clear('customerDetails')
+    localStorage.setItem('customerDetails', JSON.stringify(customerDetails))
+  }
+
   const handleClick = () => {
     const errors = validate();
     setErrors(errors || {});
     if (errors) return;
-    setRedirect(true);
+    saveToStorage()
+    window.location.replace('/dargah-pardakht.html')
   };
 
   const handleChange = (input, key) => {
@@ -109,19 +130,14 @@ function Shipping(props) {
     setState({ ...state, [key]: input.value });
   };
 
-  const renderRedirect = () => {
-    if (redirect) return <Redirect to="/" />;
-  };
-
   const handleDateClick = ({ value }) => {
-    console.log(value._d)
-    const time = new Date(value._d).getTime()
-    if(time > Date.now()) setState({...state, deliverTime: time})
+    console.log(value._d);
+    const time = new Date(value._d).getTime();
+    if (time > Date.now()) setState({ ...state, deliverTime: time });
   };
 
   return (
     <>
-      {/* {renderRedirect()} */}
       <div className={classes.parent}>
         <h4 className={classes.title}>نهایی کردن خرید</h4>
         <form className={classes.form}>
@@ -170,7 +186,7 @@ function Shipping(props) {
           </div>
           <div>
             <label>تاریخ تحویل</label>
-            <DatePicker onClickSubmitButton={handleDateClick}/>
+            <DatePicker onClickSubmitButton={handleDateClick} />
           </div>
           <Button
             variant="contained"

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addTocart } from "../../../redux/cart/cartActions";
 import { getProduct } from "../../../services/ordersService";
 import { transformToHtml } from "../../../utils/transformToHtml";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +20,13 @@ const useStyles = makeStyles((theme) => ({
   general: {
     display: "flex",
     gap: theme.spacing(5),
+    flexWrap: 'wrap',
+    [theme.breakpoints.down('sm')]: {
+      justifyContent: "center",
+      " & > img": {
+        flexGrow: "1"
+      }
+    },
     "& > img": {
       width: "300px",
       height: "300px",
@@ -56,7 +65,12 @@ function Product() {
   const classes = useStyles();
   const { productId } = useParams();
   const [product, setProduct] = useState({});
-  const [numberOfDemand, setNumberOfDemand] = useState(0);
+  const count =
+    useSelector((state) =>
+      state.products.filter((product) => product.id === +productId)
+    )[0]?.numberOfDemand || 0;
+  const [numberOfDemand, setNumberOfDemand] = useState(count);
+  const dispatch = useDispatch();
   useEffect(() => {
     getProduct(productId).then((res) => setProduct(res));
   }, [productId]);
@@ -65,7 +79,9 @@ function Product() {
     setNumberOfDemand(e.target.value);
   };
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    dispatch(addTocart(product, numberOfDemand));
+  };
 
   return (
     <>
@@ -92,7 +108,10 @@ function Product() {
             </div>
             <div className={classes.bold}>{product.price} تومان</div>
             <div className={classes.fileds}>
-              <TextField
+              {
+                product.numberInStock > 0 ? (
+                  <>
+                    <TextField
                 inputProps={{ min: 0, max: product.numberInStock }}
                 id="outlined-number"
                 type="number"
@@ -109,6 +128,9 @@ function Product() {
               >
                 افزودن به سبد خرید
               </Button>
+                  </>
+                ): <h5>اتمام موجودی</h5>
+              }
             </div>
           </div>
         </div>

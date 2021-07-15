@@ -1,13 +1,22 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { TableData } from "../../../common/Components/Table";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { deleteFromCart, setTotalPrice } from "../../../redux/cart/cartActions";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   parent: {
     margin: `${theme.spacing(2)}px 0`,
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+  },
+  cta: {
+    marginTop: theme.spacing(2),
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   btn: {
     backgroundColor: "#198754",
@@ -21,11 +30,20 @@ const useStyles = makeStyles((theme) => ({
 
 function Cart() {
   const classes = useStyles();
-  const history = useHistory()
-
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.products);
   const handleClick = () => {
-      history.push('/shipping')
-  }
+    history.push("/shipping");
+  };
+
+  useEffect(() => {
+    dispatch(setTotalPrice(totalPrice()))
+  }, [])
+
+  const handleDelete = (product) => {
+    dispatch(deleteFromCart(product.id));
+  };
 
   const columns = [
     {
@@ -46,12 +64,9 @@ function Cart() {
         <>
           <Button
             variant="contained"
-            color="primary"
-            style={{ marginLeft: "5px" }}
+            color="secondary"
+            onClick={() => handleDelete(item)}
           >
-            افزودن
-          </Button>
-          <Button variant="contained" color="secondary">
             حذف
           </Button>
         </>
@@ -61,13 +76,32 @@ function Cart() {
     },
   ];
 
+  const totalPrice = () => {
+    const allProcutPrice = data.map((item) => item.price * item.numberOfDemand);
+    const totalPrice =  allProcutPrice.reduce((accm, current) => accm + current);
+    return totalPrice
+  };
+
   return (
     <div className={classes.parent}>
-      <h4>سبد خرید</h4>
-      {/* <TableData /> */}
-      <Button className={classes.btn} variant="contained" onClick={handleClick}>
-        نهایی کردن سبد خرید
-      </Button>
+      {data.length ? (
+        <>
+          <h4>سبد خرید</h4>
+          <TableData columns={columns} data={data} />
+          <div className={classes.cta}>
+            <h5>جمع کل :‌ {totalPrice()} تومان</h5>
+            <Button
+              className={classes.btn}
+              variant="contained"
+              onClick={handleClick}
+            >
+              نهایی کردن سبد خرید
+            </Button>
+          </div>
+        </>
+      ) : (
+        <h4>سبد خرید خالی میباشد.</h4>
+      )}
     </div>
   );
 }

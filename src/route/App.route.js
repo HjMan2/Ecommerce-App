@@ -14,7 +14,6 @@ import {
   Shipping,
   Product,
   NotFound,
-  ResultPayment,
 } from "../pages";
 
 function AppRoute() {
@@ -35,15 +34,6 @@ function AppRoute() {
         <Route exact path="/shipping">
           <MainLayout>
             <Shipping />
-          </MainLayout>
-        </Route>
-        <Route
-          path="/dargah-pardakht.html"
-          onEneter={() => window.location.reload()}
-        />
-        <Route path="/result-payment">
-          <MainLayout>
-            <ResultPayment />
           </MainLayout>
         </Route>
         <Route path="/product/:productId">

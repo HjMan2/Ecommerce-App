@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addTocart } from "../../../redux/cart/cartActions";
 import { getProduct } from "../../../services/ordersService";
@@ -20,14 +20,15 @@ const useStyles = makeStyles((theme) => ({
   general: {
     display: "flex",
     gap: theme.spacing(5),
-    flexWrap: 'wrap',
-    [theme.breakpoints.down('sm')]: {
+    flexWrap: "wrap",
+    [theme.breakpoints.down("sm")]: {
       justifyContent: "center",
       " & > img": {
-        flexGrow: "1"
-      }
+        flexGrow: "1",
+      },
     },
     "& > img": {
+      border: "3px solid black",
       width: "300px",
       height: "300px",
       objectFit: "cover",
@@ -36,11 +37,13 @@ const useStyles = makeStyles((theme) => ({
   detalis: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
+    gap: theme.spacing(3),
+    alignSelf: "center",
   },
   addBtn: {
     backgroundColor: "#198754",
     color: "white",
+    fontFamily: "IRANSans",
     "&:hover": {
       backgroundColor: "#197054",
     },
@@ -51,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   bold: {
-    fontSize: "1.875rem",
+    fontSize: "1.5rem",
     fontWeight: "600",
     fontFamily: "inherit",
     color: "black",
@@ -64,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 function Product() {
   const classes = useStyles();
   const { productId } = useParams();
+  const history = useHistory();
   const [product, setProduct] = useState({});
   const count =
     useSelector((state) =>
@@ -72,8 +76,10 @@ function Product() {
   const [numberOfDemand, setNumberOfDemand] = useState(count);
   const dispatch = useDispatch();
   useEffect(() => {
-    getProduct(productId).then((res) => setProduct(res));
-  }, [productId]);
+    getProduct(productId)
+      .then((res) => setProduct(res.data))
+      .catch(() => history.push("/not-found"));
+  }, [productId, history]);
 
   const handleChange = (e) => {
     setNumberOfDemand(e.target.value);
@@ -108,29 +114,29 @@ function Product() {
             </div>
             <div className={classes.bold}>{product.price} تومان</div>
             <div className={classes.fileds}>
-              {
-                product.numberInStock > 0 ? (
-                  <>
-                    <TextField
-                inputProps={{ min: 0, max: product.numberInStock }}
-                id="outlined-number"
-                type="number"
-                value={numberOfDemand}
-                variant="outlined"
-                onChange={handleChange}
-              />
-              <Button
-                disabled={Boolean(!+numberOfDemand)}
-                variant="contained"
-                className={classes.addBtn}
-                size="large"
-                onClick={handleClick}
-              >
-                افزودن به سبد خرید
-              </Button>
-                  </>
-                ): <h5>اتمام موجودی</h5>
-              }
+              {product.numberInStock > 0 ? (
+                <>
+                  <TextField
+                    inputProps={{ min: 0, max: product.numberInStock }}
+                    id="outlined-number"
+                    type="number"
+                    value={numberOfDemand}
+                    variant="outlined"
+                    onChange={handleChange}
+                  />
+                  <Button
+                    disabled={Boolean(!+numberOfDemand)}
+                    variant="contained"
+                    className={classes.addBtn}
+                    size="large"
+                    onClick={handleClick}
+                  >
+                    افزودن به سبد خرید
+                  </Button>
+                </>
+              ) : (
+                <h5>اتمام موجودی</h5>
+              )}
             </div>
           </div>
         </div>

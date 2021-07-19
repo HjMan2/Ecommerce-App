@@ -12,9 +12,17 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(2),
     justifyContent: "center",
   },
+  listBtn: {
+    "& ul li a": {
+      "&.MuiPaginationItem-page.Mui-selected": {
+        color: "white",
+        backgroundColor: "#c2a22f",
+      },
+    },
+  },
 }));
 
-function Paginate({ count,path }) {
+function Paginate({ count, path }) {
   const classes = useStyles();
   const { activeTab } = useParams();
   const { search } = useLocation();
@@ -26,20 +34,19 @@ function Paginate({ count,path }) {
           const query = new URLSearchParams(location.search);
           const page = parseInt(query.get("page") || "1", 10);
           const searchQuery = status ? `?status=${status}` : `?`;
-          const formatActiveTab = activeTab ? `/${activeTab}`: null
+          const formatActiveTab = activeTab ? `/${activeTab}` : null;
           return (
             <Pagination
               page={page}
               count={count}
+              className={classes.listBtn}
               renderItem={(item) => (
                 <PaginationItem
                   component={Link}
-                  to={`/${path}${formatActiveTab|| ""}${searchQuery}${
+                  to={`/${path}${formatActiveTab || ""}${searchQuery}${
                     item.page === 1
                       ? ""
-                      : `${status ? "&" : ""}page=${
-                          item.page
-                        }`
+                      : `${status ? "&" : ""}page=${item.page}`
                   }`}
                   {...item}
                 />

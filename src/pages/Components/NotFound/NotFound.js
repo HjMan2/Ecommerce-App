@@ -1,6 +1,11 @@
+import styles from './notFound.module.css'
+
 function NotFound() {
     return (
-        <h1>Not found</h1>
+        <div className={styles.not_found}>
+            <div className={styles.img}></div>
+            <p className={styles.error_message}>صفحه مورد نظر پیدا نشد</p>
+        </div>
     )
 }
 

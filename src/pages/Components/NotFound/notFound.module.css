@@ -1,0 +1,21 @@
+.not_found{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-content: center;
+    height: 100vh;
+}
+.img{
+    background-image: url('../../../assets/404.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    width: 300px;
+    height: 300px;
+}
+
+
+.error_message{
+    font-size: 1.375em;
+}

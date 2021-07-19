@@ -15,7 +15,11 @@ const useStyles = makeStyles({
   theadCell: {
     fontSize: "1rem",
     fontWeight: "600",
+    fontFamily: "IRANSans"
   },
+  tData: {
+    fontFamily: "IRANSans"
+  }
 });
 
 const formatDate = (date) => {
@@ -60,7 +64,7 @@ function TableData({ columns, data, maxHeight }) {
             <TableRow key={item.id}>
               {columns.map((column) => {
                 return (
-                  <TableCell align="right" key={createKey(item, column)}>
+                  <TableCell align="right" key={createKey(item, column)} className={classes.tData}>
                     {renderCell(item, column)}
                   </TableCell>
                 );

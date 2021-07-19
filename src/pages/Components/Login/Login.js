@@ -41,14 +41,13 @@ const useStyles = makeStyles(() => ({
   rightLabel: {
     "& > label": {
       left: "auto",
+      fontFamily: "IRANSans"
     },
   },
   backToMain: {
     display: "inline-block",
-    textDecoration: "none",
-    border: "1px solid darkCyan",
+    textDecoration: "underline!important",
     padding: "5px",
-    borderRadius: "3px",
     fontWeight: "400",
     backgroundColor: "#fff",
     color: "black",
@@ -60,6 +59,14 @@ const useStyles = makeStyles(() => ({
       color: "darkGray",
     },
   },
+  loginBnt: {
+    backgroundColor: "#c2a22f",
+    color: "white",
+    fontFamily: "IRANSans",
+    "&:hover": {
+      backgroundColor: "#e1c257"
+    }
+  }
 }));
 
 function Login() {
@@ -85,7 +92,7 @@ function Login() {
             label="رمز عبور"
             className={classes.rightLabel}
           />
-          <Button variant="contained" color="primary" type="submit">
+          <Button variant="contained" color="primary" type="submit" className={classes.loginBnt}>
             ورود
           </Button>
           <div className="d-flex mb-0 mt-2 justify-content-end text-">

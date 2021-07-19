@@ -13,7 +13,7 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(() => ({
   bgColor: {
-    backgroundColor: "#56ba94",
+    backgroundColor: "#c2a22f",
   },
   marginBottom: {
     marginBottom: theme.spacing(2),
@@ -30,6 +30,7 @@ const useStyles = makeStyles(() => ({
   title: {
     fontSize: "1rem",
     display: "none",
+    fontFamily: "IRANSans",
     [theme.breakpoints.up("lg")]: {
       fontSize: "1.125rem",
       display: "block",

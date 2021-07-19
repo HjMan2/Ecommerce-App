@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { DeliveredOrders } from "./Components/DeliveredOrders";
 import { PendingOrders } from "./Components/PendingOrders";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { green } from "@material-ui/core/colors";
 import Radio from "@material-ui/core/Radio";
 import { useHistory, useLocation } from "react-router-dom";
 
@@ -33,9 +32,9 @@ const useStyles = makeStyles((theme) => ({
 
 const GreenRadio = withStyles({
   root: {
-    color: green[400],
+    color: "#c2a22f",
     "&$checked": {
-      color: green[600],
+      color: "#c2a22f",
     },
   },
   checked: {},

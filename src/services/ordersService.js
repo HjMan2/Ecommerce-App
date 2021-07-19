@@ -101,12 +101,7 @@ async function getAllProducts() {
 }
 
 async function getProduct(id) {
-  try {
-    const { data } = await http.get(createUrl("allProducts", id));
-    return data;
-  } catch (error) {
-    console.log(error.message);
-  }
+  return await http.get(createUrl("allProducts", id));
 }
 
 async function getPagedProducts(pageNumber) {

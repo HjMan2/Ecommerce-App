@@ -3,13 +3,14 @@ function Footer() {
         width: '100%',
         padding: "15px 0",
         textAlign: 'center',
-        backgroundColor: "#56ba94",
+        backgroundColor: "#c2a22f",
         color: 'white',
         fontSize: "1.125rem",
+        fontFamily: "cursive"
     }
     return (
         <div style={styles}>
-            <span>سایت فروشگاهی</span>
+            <span>&copy; All rights reserved</span>
         </div>
     )
 }

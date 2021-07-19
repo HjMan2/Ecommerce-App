@@ -16,7 +16,7 @@ const theme = createMuiTheme({
 });
 const useStyles = makeStyles(() => ({
   bgColor: {
-    backgroundColor: "#56ba94",
+    backgroundColor: "#c2a22f",
   },
   grow: {
     flexGrow: 1,
@@ -36,6 +36,7 @@ const useStyles = makeStyles(() => ({
   links: {
     color: "#fff",
     textDecoration: "none",
+    fontFamily: "IRANSans",
     "&:active,&:hover": {
       color: "inherit",
     },
@@ -69,13 +70,13 @@ function Header() {
             </IconButton>
           ) : null}
           <Typography className={classes.title} variant="h6" noWrap>
-            <Link to="/" className={classes.links}>
+            <Link to="/" className={classes.links} style={{fontWeight: "700"}}>
               فروشگاه اینترنتی
             </Link>
           </Typography>
           <div className={classes.grow} />
           <div className={classes.spacing}>
-            <Link className={classes.links} to="/login">
+            <Link className={classes.links} to="/login" style={{fontWeight: "600"}}>
               مدیریت
             </Link>
             <Link className={classes.links} to="/cart">

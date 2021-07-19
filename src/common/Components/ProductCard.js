@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-between",
     textAlign: "right",
+    color: "black",
+    "& span:first-child": {
+      fontWeight: "600"
+
+    }
   },
 }));
 

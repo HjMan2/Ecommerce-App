@@ -36,15 +36,20 @@ function Cart() {
   const handleClick = () => {
     history.push("/shipping");
   };
-
+  
+  const sendAction = () => {
+    dispatch(setTotalPrice(totalPrice()));
+  };
+  
   useEffect(() => {
-    dispatch(setTotalPrice(totalPrice()))
-  }, [])
-
+    sendAction();
+    return () => sendAction();
+  }, []);
+  
   const handleDelete = (product) => {
     dispatch(deleteFromCart(product.id));
   };
-
+  
   const columns = [
     {
       details: (item) => <Link to={`/product/${item.id}`}>{item.name}</Link>,
@@ -66,7 +71,7 @@ function Cart() {
             variant="contained"
             color="secondary"
             onClick={() => handleDelete(item)}
-          >
+            >
             حذف
           </Button>
         </>
@@ -75,16 +80,19 @@ function Cart() {
       label: "تغییرات",
     },
   ];
-
+  
   const totalPrice = () => {
     const allProcutPrice = data.map((item) => item.price * item.numberOfDemand);
-    const totalPrice =  allProcutPrice.reduce((accm, current) => accm + current);
-    return totalPrice
-  };
+    const totalPrice = allProcutPrice.reduce(
+      (accm, current) => accm + current,
+      0
+      );
+      return totalPrice;
+    };
 
-  return (
-    <div className={classes.parent}>
-      {data.length ? (
+    return (
+      <div className={classes.parent}>
+      {data.length > 0 ? (
         <>
           <h4>سبد خرید</h4>
           <TableData columns={columns} data={data} />
